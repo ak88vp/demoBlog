@@ -63,6 +63,8 @@ public class BlogServlet extends HttpServlet {
         int id= Integer.parseInt(request.getParameter("id"));
         Blog blog=blogService.findById(id);
         request.setAttribute("blog",blog);
+        List<Category> list1= categoryService.printAll();
+        request.setAttribute("categorys",list1);
         requestDispatcher.forward(request,response);
 
     }
@@ -114,7 +116,24 @@ public class BlogServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                break;}
+                break;
+            case "edit":
+                try {
+                    editBlog(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    private void editBlog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id= Integer.parseInt(request.getParameter("idCategory"));
+        String title=request.getParameter("title");
+        String content=request.getParameter("content");
+        int id1= Integer.parseInt(request.getParameter("id"));
+        blogService.edit(id1,new Blog(title,content,id));
+        response.sendRedirect("/blogs");
     }
 
     private void createBlog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {

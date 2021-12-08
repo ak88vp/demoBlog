@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void edit(Category category) throws SQLException {
+    public void edit(int id,Category category) throws SQLException {
 
     }
 

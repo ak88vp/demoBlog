@@ -14,7 +14,8 @@
 <body>
 <center>
     <form method="post">
-        <input type="text" name="title" placeholder="Viết tiêu đề">   <select name="idCategory">
+        <input type="text" name="title" placeholder="Viết tiêu đề">
+        <select name="idCategory">
 
         <c:forEach var="i" begin="0" end="${categorys.size()-1}">
 

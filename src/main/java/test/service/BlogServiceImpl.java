@@ -80,13 +80,13 @@ public class BlogServiceImpl implements BlogService{
         preparedStatement.executeUpdate();
     }
     @Override
-    public void edit(Blog blog) throws SQLException {
+    public void edit(int id,Blog blog) throws SQLException {
         Connection connection=getConnection();
         PreparedStatement preparedStatement=connection.prepareStatement("update blog set title=?, Content=?, idCategory=? where id=?");
         preparedStatement.setString(1,blog.getName());
         preparedStatement.setString(2,blog.getContent());
         preparedStatement.setInt(3,blog.getIdCategory());
-        preparedStatement.setInt(4,blog.getId());
+        preparedStatement.setInt(4,id);
         preparedStatement.executeUpdate();
     }
 

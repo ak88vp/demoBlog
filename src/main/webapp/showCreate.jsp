@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Tien Dung
@@ -13,11 +14,21 @@
 <body>
 <center>
     <form method="post">
-        <input type="text" name="title" placeholder="Viết tiêu đề">
+        <input type="text" name="title" placeholder="Viết tiêu đề">   <select name="idCategory">
+
+        <c:forEach var="i" begin="0" end="${categorys.size()-1}">
+
+            <option value="${categorys.get(i).id}"> ${categorys.get(i).name} </option>
+
+        </c:forEach>
+
+    </select>
+        <br>
         <br>
         <input type="text" name="content" placeholder="Viết nội dung">
-        <br>
 
+        <br>
+        <br>
         <br>
         <button> Viết</button>
     </form>

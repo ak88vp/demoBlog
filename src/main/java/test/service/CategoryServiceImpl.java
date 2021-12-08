@@ -4,6 +4,7 @@ import test.model.Blog;
 import test.model.Category;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService{
@@ -24,7 +25,19 @@ public class CategoryServiceImpl implements CategoryService{
     }
     @Override
     public List<Category> printAll() throws SQLException {
-        return null;
+        List<Category> categoryList=new ArrayList<>();
+        Connection connection=getConnection();
+        PreparedStatement preparedStatement=connection.prepareStatement("select *from category");
+        ResultSet rs=preparedStatement.executeQuery();
+        while (rs.next()){
+            int id=rs.getInt("id") ;
+            String name=rs.getString("name") ;
+
+            categoryList.add(new Category(id,name));
+
+        }
+
+        return categoryList;
     }
 
     @Override

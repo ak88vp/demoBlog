@@ -11,5 +11,4 @@ public interface Service <T>{
     void add(T t) throws SQLException;
     void edit(int id,T t) throws SQLException;
     void delete(int id) throws SQLException;
-
 }

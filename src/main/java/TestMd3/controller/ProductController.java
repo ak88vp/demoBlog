@@ -2,8 +2,8 @@ package TestMd3.controller;
 
 import TestMd3.model.Category;
 import TestMd3.model.Product;
-import TestMd3.service.CategoryServiceImpl;
-import TestMd3.service.ProductCategoryImpl;
+import TestMd3.service.CategoryService;
+import TestMd3.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +19,9 @@ import java.util.List;
 @Controller
 public class ProductController {
     @Autowired
-    ProductCategoryImpl productCategory;
+    ProductService productCategory;
     @Autowired
-    CategoryServiceImpl categoryService;
+    CategoryService categoryService;
     @GetMapping("")
     public String call() {
         return "index";
@@ -32,10 +32,8 @@ public class ProductController {
         ModelAndView modelAndView=new ModelAndView("/listProduct");
         List <Product> list=productCategory.printAll();
         List<Category> categoryList=allCategory(list);
-
         model.addAttribute("products",list);
         model.addAttribute("categorys",categoryList);
-
         return modelAndView;
     }
     private List<Category> allCategory(List<Product> list) throws SQLException {
@@ -52,32 +50,17 @@ public class ProductController {
         ModelAndView modelAndView=new ModelAndView("/showCreate");
         List<Category> categoryList=categoryService.printAll();
         model.addAttribute("categorys",categoryList);
-
         return modelAndView;
     }
     @PostMapping("/create")
-    public ModelAndView getCreate(Model model,@RequestParam String name,int price,int quantity,String color,String description,int idCategory) throws SQLException {
-        productCategory.add(new Product(name,price,quantity,color,description,idCategory));
-
-        ModelAndView modelAndView=new ModelAndView("/listProduct");
-        List <Product> list=productCategory.printAll();
-        List<Category> categoryList=allCategory(list);
-
-        model.addAttribute("products",list);
-        model.addAttribute("categorys",categoryList);
-
-
-        return modelAndView;
+    public String getCreate(Product product) throws SQLException {
+        productCategory.add(product);
+        return "redirect:/products";
     }
     @GetMapping ("/delete")
-    public ModelAndView getDelete(Model model,@RequestParam int id) throws SQLException {
+    public String getDelete(@RequestParam int id) throws SQLException {
         productCategory.delete(id);
-        ModelAndView modelAndView=new ModelAndView("/listProduct");
-        List <Product> list=productCategory.printAll();
-        List<Category> categoryList=allCategory(list);
-        model.addAttribute("products",list);
-        model.addAttribute("categorys",categoryList);
-        return modelAndView;
+        return "redirect:/products";
     }
     @GetMapping("edit")
     public ModelAndView showEdit(Model model,@RequestParam int id) throws SQLException {
@@ -86,19 +69,11 @@ public class ProductController {
         List<Category> categoryList=categoryService.printAll();
         model.addAttribute("product",product);
         model.addAttribute("categorys",categoryList);
-
         return modelAndView;
     }
     @PostMapping("edit")
-    public ModelAndView getEdit(Model model,@RequestParam String name,int price,int quantity,String color,String description,int idCategory,int id) throws SQLException {
-        ModelAndView modelAndView=new ModelAndView("/listProduct");
-        productCategory.edit(id,new Product(name,price,quantity,color,description,idCategory));
-
-        List <Product> list=productCategory.printAll();
-        List<Category> categoryList=allCategory(list);
-        model.addAttribute("products",list);
-        model.addAttribute("categorys",categoryList);
-
-        return modelAndView;
+    public String getEdit(@RequestParam int id,Product product) throws SQLException {
+        productCategory.edit(id,product);
+        return "redirect:/products";
     }
 }
